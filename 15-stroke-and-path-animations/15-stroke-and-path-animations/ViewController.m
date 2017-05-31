@@ -11,7 +11,7 @@
 
 #define  kRefreshViewHeight 110.0
 
-@interface ViewController ()
+@interface ViewController () <RefreshDelegate,UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) NSArray *packItems;
 @property (nonatomic, strong) RefreshView *refreshView;
 @end
@@ -30,7 +30,11 @@
     
     CGRect refreshrect = CGRectMake(0, -kRefreshViewHeight, self.view.frame.size.width, kRefreshViewHeight);
     
-    self.refreshView = [[RefreshView alloc] initWithFrame:refreshrect];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+    self.refreshView = [[RefreshView alloc] initWithFrame:refreshrect scrollView:self.tableView];
+    self.refreshView.delegate = self;
     [self.view addSubview:self.refreshView];
     
 }
@@ -60,12 +64,31 @@
     return cell;
     
 }
-- (void)delay:(double)seconds
+- (void)delay:(double)seconds 
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(seconds * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         
     });
 }
-
+    
+#pragma mark --REfreshViewDelegate
+- (void)refreshViewDidRefresh:(RefreshView *)refreshView
+    {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.refreshView endRefreshing];
+        });
+       
+    }
+    
+#pragma mark --ScrollerViewDelegate
+    - (void)scrollViewDidScroll:(UIScrollView *)scrollView
+    {
+    
+        [self.refreshView scrollViewDidScroll:scrollView];
+    }
+    - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+    {
+        [self.refreshView scrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset];
+    }
 @end

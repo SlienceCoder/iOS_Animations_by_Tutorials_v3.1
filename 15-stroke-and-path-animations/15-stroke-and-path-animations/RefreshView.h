@@ -19,11 +19,11 @@
 @interface RefreshView : UIView
 
 @property (nonatomic, weak) id<RefreshDelegate> delegate;
-@property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, assign) BOOL refreshing;
-@property (nonatomic, assign) CGFloat progress;
-@property (nonatomic, assign) BOOL isRefreshing;
-@property (nonatomic, weak) CAShapeLayer *ovalShapeLayer;
-@property (nonatomic, weak) CALayer *airplaneLayer;
+
+    
+    - (instancetype)initWithFrame:(CGRect)frame scrollView:(UIScrollView *)scrollerView;
+    - (void)scrollViewDidScroll:(UIScrollView *)scrollView;
+    - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset;
+    - (void)endRefreshing;
 
 @end
