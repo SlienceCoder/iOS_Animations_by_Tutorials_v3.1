@@ -18,7 +18,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *cloud2;
 @property (weak, nonatomic) IBOutlet UIImageView *cloud3;
 @property (weak, nonatomic) IBOutlet UIImageView *cloud4;
-
 @property (nonatomic, strong) UIActivityIndicatorView *spinner;
 @property (nonatomic, strong) UIImageView *status;
 @property (nonatomic, strong) UILabel *label;
